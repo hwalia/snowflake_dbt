@@ -1,0 +1,60 @@
+CREATE OR REPLACE STAGE DEMO.DEMO_SCHEMA.bike_stage;
+
+list @DEMO.DEMO_SCHEMA.BIKE_STAGE;
+
+ALTER STAGE DEMO_SCHEMA.BIKE_STAGE REFRESH;
+
+CREATE OR REPLACE FILE FORMAT CSVBIKE type='csv' field_delimiter=',';
+
+select
+    t.$1
+    ,t.$2
+    ,t.$3
+    ,t.$4
+    ,t.$5
+    ,t.$6
+    ,t.$7
+    ,t.$8
+    ,t.$9
+    ,t.$10
+    ,t.$11
+    ,t.$12
+    ,t.$13
+FROM
+    @DEMO.DEMO_SCHEMA.BIKE_STAGE (FILE_FORMAT => 'CSVBIKE') t;
+
+		CREATE OR REPLACE TABLE DEMO.DEMO_SCHEMA.BIKE (
+
+		RIDE_ID STRING,
+		RIDEABLE_TYPE STRING,
+		STARTED_AT STRING,
+		ENDED_AT STRING,
+		START_STATION_NAME STRING,
+		START_STATIO_ID STRING,
+		END_STATION_NAME STRING,
+		END_STATION_ID STRING,
+		START_LAT STRING,
+		START_LNG STRING,
+		END_LAT STRING,
+		END_LNG STRING,
+		MEMBER_CSUAL STRING);
+
+	COPY INTO DEMO.DEMO_SCHEMA.BIKE
+			FROM
+			(
+			SELECT
+			t.$1,
+			t.$2,
+			t.$3,
+			t.$4,
+			t.$5,
+			t.$6,
+			t.$7,
+			t.$8,
+			t.$9,
+			t.$10,
+			t.$11,
+			t.$12,
+			t.$13
+			FROM
+			@DEMO_SCHEMA.BIKE_STAGE t);
