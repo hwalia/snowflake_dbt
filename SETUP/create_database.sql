@@ -1,4 +1,5 @@
 CREATE DATABASE DEMO;
 
+//This command create the schema
 CREATE SCHEMA DEMO.DEMO_SCHEMA;
 
